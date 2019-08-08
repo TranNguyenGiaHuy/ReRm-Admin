@@ -1,0 +1,107 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.huytran.grpcdemo.generatedproto;
+
+message User {
+    int64 id = 1;
+    string name = 2;
+    string user_name = 3;
+    int64 avatar_id = 4;
+    string phone_number = 5;
+    string id_card = 6;
+    int64 ts_card_dated = 7;
+    int64 ts_date_of_birth = 8;
+    string place_of_permanent = 9;
+    string place_of_issue_of_identity_card = 10;
+}
+
+message SignUpRequest {
+    string name = 1;
+    string password = 2;
+}
+
+message SignUpResponse {
+    int32 result_code = 1;
+    string token = 2;
+}
+
+message LoginRequest {
+    string name = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    int32 result_code = 1;
+    string token = 2;
+}
+
+message GetInfoRequest {
+
+}
+
+message GetInfoResponse {
+    int32 result_code = 1;
+    User user = 2;
+}
+
+message LogoutRequest {
+
+}
+
+message LogoutResponse {
+
+}
+
+message LoginWithTokenRequest {
+
+}
+
+message LoginWithTokenResponse {
+    int32 result_code = 1;
+}
+
+message UpdateUserInfoRequest {
+    string name = 1;
+    string user_name = 2;
+    string phone_number = 3;
+    string id_card = 4;
+    int64 ts_card_dated = 5;
+    int64 ts_date_of_birth = 6;
+    string place_of_permanent = 7;
+    string place_of_issue_of_identity_card = 8;
+}
+
+message UpdateUserInfoResponse {
+    int32 result_code = 1;
+    User user = 2;
+}
+
+message GetInfoOfUserRequest {
+    int64 id = 1;
+}
+
+message GetInfoOfUserResponse {
+    int32 result_code = 1;
+    User user = 2;
+}
+
+message GetAllUserForAdminRequest {
+
+}
+
+message GetAllUserForAdminResponse {
+    int32 result_code = 1;
+    repeated User user = 2;
+}
+
+service UserService {
+    rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
+    rpc Login(LoginRequest) returns (LoginResponse) {}
+    rpc GetInfo(GetInfoRequest) returns (GetInfoResponse) {}
+    rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+    rpc LoginWithToken(LoginWithTokenRequest) returns (LoginWithTokenResponse) {}
+    rpc UpdateUserInfo(UpdateUserInfoRequest) returns (UpdateUserInfoResponse) {}
+    rpc GetInfoOfUser(GetInfoOfUserRequest) returns (GetInfoOfUserResponse) {}
+    rpc GetAllUserForAdmin(GetAllUserForAdminRequest) returns (GetAllUserForAdminResponse) {}
+    rpc LoginForAdmin(LoginRequest) returns (LoginResponse) {}
+}

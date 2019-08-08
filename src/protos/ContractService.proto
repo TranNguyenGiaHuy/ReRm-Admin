@@ -1,0 +1,37 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.huytran.grpcdemo.generatedproto;
+
+message Contract {
+    int64 owner = 1;
+    int64 renter = 2;
+    int64 tsStart = 3;
+    int64 tsEnd = 4;
+    int32 modeOPayment = 5;
+    int64 roomId = 6;
+    string ownerName = 7;
+    string renterName = 8;
+    string roomName = 9;
+    int64 id = 10;
+}
+
+message GetAllContractRequest {
+}
+
+message GetAllContractResponse {
+    repeated Contract contract = 1;
+}
+
+message TerminateContractRequest {
+    int64 id = 1;
+}
+
+message TerminateContractResponse {
+    int32 result_code = 1;
+}
+
+service ContractService {
+    rpc GetAllContract(GetAllContractRequest) returns (GetAllContractResponse) {}
+    rpc TerminateContract(TerminateContractRequest) returns (TerminateContractResponse) {}
+    rpc GetAllContractForAdmin(GetAllContractRequest) returns (GetAllContractResponse) {}
+}

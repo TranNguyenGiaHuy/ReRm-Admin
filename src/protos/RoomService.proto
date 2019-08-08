@@ -1,0 +1,112 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.huytran.grpcdemo.generatedproto;
+
+message Room {
+    float square = 1;
+    string address = 2;
+    int64 price = 3;
+    int32 type = 4;
+    int32 number_of_floor = 5;
+    bool has_furniture = 6;
+    int32 max_member = 7;
+    bool cooking_allowance = 8;
+    int32 home_type = 9;
+    int64 prepaid = 10;
+    string description = 11;
+    string title = 12;
+
+    int64 owner_id = 13;
+    string owner_name = 14;
+
+    int64 id = 15;
+    string term = 16;
+    int64 electricity_price = 17;
+    int64 water_price = 18;
+    bool is_renting = 19;
+}
+
+message CreateRoomRequest {
+    Room room = 1;
+}
+
+message CreateRoomResponse {
+    int32 result_code = 1;
+    int64 room_id = 2;
+}
+
+message GetAllRoomRequest{
+}
+
+message GetAllRoomResponse {
+    int32 result_code = 1;
+    repeated Room room = 2;
+}
+
+message GetAllSavedRoomRequest {
+
+}
+
+message GetAllSavedRoomResponse {
+    int32 result_code = 1;
+    repeated Room room = 2;
+}
+
+message GetRoomRequest {
+    int64 room_id = 1;
+}
+
+message GetRoomResponse {
+    int32 result_code = 1;
+    Room room = 2;
+}
+
+message UpdateRoomRequest {
+    Room room = 1;
+}
+
+message UpdateRoomResponse {
+    int32 result_code = 1;
+    Room room = 2;
+}
+
+message DeleteRoomRequest {
+    int64 id = 1;
+}
+
+message DeleteRoomResponse {
+    int32 result_code = 1;
+}
+
+message GetAllRoomOfUserRequest {
+
+}
+
+message GetAllRoomOfUserResponse {
+    int32 result_code = 1;
+    repeated Room room = 2;
+}
+
+message SearchRoomRequest {
+    string keyword = 1;
+    int64 min_price = 2;
+    int64 max_price = 3;
+    int32 type = 4;
+}
+
+message SearchRoomResponse {
+    int32 result_code = 1;
+    repeated Room room = 2;
+}
+
+service RoomService {
+    rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+    rpc GetAllRoom(GetAllRoomRequest) returns (GetAllRoomResponse) {}
+    rpc GetAllSavedRoom(GetAllSavedRoomRequest) returns (GetAllSavedRoomResponse) {}
+    rpc GetRoom(GetRoomRequest) returns (GetRoomResponse) {}
+    rpc UpdateRoom(UpdateRoomRequest) returns (UpdateRoomResponse) {}
+    rpc DeleteRoom(DeleteRoomRequest) returns (DeleteRoomResponse) {}
+    rpc GetAllRoomOfUser(GetAllRoomOfUserRequest) returns (GetAllRoomOfUserResponse) {}
+    rpc SearchRoom(SearchRoomRequest) returns (SearchRoomResponse) {}
+    rpc GetAllRoomForAdmin(GetAllRoomRequest) returns (GetAllRoomResponse) {}
+}
