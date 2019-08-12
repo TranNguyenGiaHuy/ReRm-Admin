@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Contract | ReRm</title>
+  <title>User | ReRm</title>
 
   <!-- Bootstrap -->
   <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +86,43 @@
         <div class="">
           <div class="page-title">
             <div class="title_left">
-              <h3>Contracts </h3>
+              <h3>Users </h3>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Rooms </h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <table id="table-room" class="display" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Square</th>
+                        <th>Price</th>
+                        <th>Term</th>
+                        <th>Water Price</th>
+                        <th>Electricity Price</th>
+                        <th>Owner</th>
+                        <th>Is Renting</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -104,7 +140,7 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <table id="table-container" class="display" style="width:100%">
+                  <table id="table-contract" class="display" style="width:100%">
                     <thead>
                       <tr>
                         <th>Id</th>
@@ -169,15 +205,50 @@
   <script>
 
     $(document).ready(function () {
-      var table = $("#table-container").DataTable();
+      var urlString = window.location.href;
+      var url = new URL(urlString);
+      var userId = url.searchParams.get("id");
+      console.log(userId);
+
+      var roomTable = $("#table-room").DataTable();
+      var contractTable = $("#table-contract").DataTable();
 
       $.ajax({
-        url: '/getContract',
+        url: '/getRoomOfUser',
         type: 'post',
+        dataType: "json",
+        data: { id: userId },
+        beforeSend: function (xhr) { xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); },
+        complete: function (data) {
+          var roomList = data.responseJSON.roomList;
+          roomList.forEach(function (item) {
+            roomTable.row.add([
+              item.id,
+              item.title,
+              item.description,
+              item.address,
+              item.square,
+              item.price,
+              item.term,
+              item.water_price,
+              item.electricity_price,
+              item.owner_name,
+              item.is_renting ? '<p class="glyphicon glyphicon-ok green text-success"/>' : '<p class="glyphicon glyphicon-remove text-danger"/>'
+            ]).draw(false)
+          })
+        }
+      });
+
+      $.ajax({
+        url: '/getContractOfUser',
+        type: 'post',
+        dataType: "json",
+        data: { id: userId },
+        beforeSend: function (xhr) { xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); },
         complete: function (data) {
           var contractList = data.responseJSON.contractList;
           contractList.forEach(function (item) {
-            table.row.add([
+            contractTable.row.add([
               item.id,
               item.ownerName,
               item.renterName,

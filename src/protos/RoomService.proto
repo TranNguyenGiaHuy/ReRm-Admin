@@ -38,6 +38,10 @@ message CreateRoomResponse {
 message GetAllRoomRequest{
 }
 
+message GetOfUserForAdminRequest{
+    int64 id = 1;
+}
+
 message GetAllRoomResponse {
     int32 result_code = 1;
     repeated Room room = 2;
@@ -109,4 +113,5 @@ service RoomService {
     rpc GetAllRoomOfUser(GetAllRoomOfUserRequest) returns (GetAllRoomOfUserResponse) {}
     rpc SearchRoom(SearchRoomRequest) returns (SearchRoomResponse) {}
     rpc GetAllRoomForAdmin(GetAllRoomRequest) returns (GetAllRoomResponse) {}
+    rpc GetAllOfForAdmin(GetOfUserForAdminRequest) returns (GetAllRoomResponse) {}
 }

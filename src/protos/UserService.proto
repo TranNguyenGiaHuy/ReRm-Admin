@@ -39,6 +39,10 @@ message GetInfoRequest {
 
 }
 
+message GetInfoForAdminRequest {
+    int64 id = 1;
+}
+
 message GetInfoResponse {
     int32 result_code = 1;
     User user = 2;
@@ -98,6 +102,7 @@ service UserService {
     rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
     rpc Login(LoginRequest) returns (LoginResponse) {}
     rpc GetInfo(GetInfoRequest) returns (GetInfoResponse) {}
+    rpc GetInfoForAdmin(GetInfoForAdminRequest) returns (GetInfoResponse) {}
     rpc Logout(LogoutRequest) returns (LogoutResponse) {}
     rpc LoginWithToken(LoginWithTokenRequest) returns (LoginWithTokenResponse) {}
     rpc UpdateUserInfo(UpdateUserInfoRequest) returns (UpdateUserInfoResponse) {}

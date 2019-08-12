@@ -115,6 +115,14 @@ app.get('/user', function (req, res) {
   }
 });
 
+app.get('/userDetail', function (req, res) {
+  if (cache.get("token") ===  undefined) {
+    res.redirect('/login');
+  } else {
+    res.sendFile(__dirname + '/src/user_detail.html');
+  }
+});
+
 // data api
 app.post('/getRoom', function (req, res) {
   var token = cache.get('token');
@@ -164,6 +172,60 @@ app.post('/getUser', function (req, res) {
   })
 })
 
+app.post('/getUserInfo', function (req, res) {
+  var token = cache.get('token');
+  var metadata = new grpc.Metadata();
+  metadata.add("Authorization", token)
+
+  var message = {
+    id: req.body.id
+  }
+
+  userService.getInfoForAdmin(message, metadata, function (err, response) {
+    if (!err) {
+      res.json({ user: response.user });
+    } else {
+      res.redirect('/login')
+    }
+  })
+})
+
+app.post('/getRoomOfUser', function (req, res) {
+  var token = cache.get('token');
+  var metadata = new grpc.Metadata();
+  metadata.add("Authorization", token)
+
+  var message = {
+    id: req.body.id
+  }
+
+  roomService.getAllOfForAdmin(message, metadata, function (err, response) {
+    if (!err) {
+      res.json({ roomList: response.room });
+    } else {
+      res.redirect('/login')
+    }
+  })
+})
+
+app.post('/getContractOfUser', function (req, res) {
+  var token = cache.get('token');
+  var metadata = new grpc.Metadata();
+  metadata.add("Authorization", token)
+
+  var message = {
+    id: req.body.id
+  }
+
+  contractService.GetAllContractOfUserForAdmin(message, metadata, function (err, response) {
+    if (!err) {
+      res.json({ contractList: response.contract });
+    } else {
+      res.redirect('/login')
+    }
+  })
+})
+
 app.post('/loginForAdmin', function (req, res) {
   var message = {
     name: req.body.name,
@@ -185,7 +247,7 @@ app.post('/logout', function(req, response) {
   var message = {};
 
   userService.logout(message, function(req, res) {
-    cache.set("token", "");
-    response.redirect("/login");
+    cache.del("token");
+    // response.redirect("/login");
   })
 })

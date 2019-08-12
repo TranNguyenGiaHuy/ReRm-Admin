@@ -18,6 +18,10 @@ message Contract {
 message GetAllContractRequest {
 }
 
+message GetAllContractOfUserRequest {
+    int64 id = 1;
+}
+
 message GetAllContractResponse {
     repeated Contract contract = 1;
 }
@@ -34,4 +38,5 @@ service ContractService {
     rpc GetAllContract(GetAllContractRequest) returns (GetAllContractResponse) {}
     rpc TerminateContract(TerminateContractRequest) returns (TerminateContractResponse) {}
     rpc GetAllContractForAdmin(GetAllContractRequest) returns (GetAllContractResponse) {}
+    rpc GetAllContractOfUserForAdmin(GetAllContractOfUserRequest) returns (GetAllContractResponse) {}
 }

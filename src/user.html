@@ -116,6 +116,7 @@
                         <th>Place Of Issue Of Identity Card</th>
                         <th>Date Of Birth</th>
                         <th>Place Of Permanent</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                   </table>
@@ -164,6 +165,7 @@
   <script src="../vendors/jszip/dist/jszip.min.js"></script>
   <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
   <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+  <script src="../vendors/moment/min/moment.min.js"></script>
 
   <!-- Custom Theme Scripts -->
   <script src="../build/js/custom.min.js"></script>
@@ -171,7 +173,19 @@
   <script>
 
     $(document).ready(function () {
-      var table = $("#table-container").DataTable();
+      var table = $("#table-container").DataTable({
+        "columnDefs": [{
+          "targets": 9,
+          "data": null,
+          "defaultContent": '<button type="button" class="btn btn-info">Info</button>'
+        }]
+      });
+
+      $('#table-container tbody').on('click', 'button', function() {
+        var data = table.row( $(this).parents('tr') ).data();
+        // console.log(data[0]);
+        window.location.href = "../userDetail?id=" + data[0];
+      })
 
       $.ajax({
         url: '/getUser',
@@ -185,9 +199,9 @@
               item.user_name,
               item.phone_number,
               item.id_card,
-              item.ts_card_dated,
+              timestampToString(item.ts_card_dated),
               item.place_of_issue_of_identity_card,
-              item.ts_date_of_birth,
+              timestampToString(item.ts_date_of_birth),
               item.place_of_permanent
             ]).draw(false)
           })
@@ -199,10 +213,17 @@
           url: '/logout',
           type: 'post',
           complete: function (data) {
+            window.location.href = "/login"
           }
         });
       })
     });
+
+    function timestampToString(timestamp) {
+      // var date = new Date(timestamp);
+      if (timestamp === "0") return "";
+      return moment(Number(timestamp)).format("DD-MM-YYYY");
+    }
 
   </script>
 
